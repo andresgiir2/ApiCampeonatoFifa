@@ -2,10 +2,13 @@ package apicampeonatosfifa.apicampeonatosfifa.Aplicacion;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import apicampeonatosfifa.apicampeonatosfifa.Core.Interfaz.Repositorios.ISeleccionRepositorio;
 import apicampeonatosfifa.apicampeonatosfifa.Core.Interfaz.Servicios.ISeleccionServicio;
 import apicampeonatosfifa.apicampeonatosfifa.Dominio.Seleccion;
 
+@Service
 public class SeleccionServicio implements ISeleccionServicio {
 
 
