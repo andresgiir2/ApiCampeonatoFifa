@@ -30,8 +30,7 @@ public class SeleccionServicio implements ISeleccionServicio {
 
     @Override
     public List<Seleccion> Buscar(String nombre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Buscar'");
+        return repositorio.Buscar(nombre);
     }
 
     @Override

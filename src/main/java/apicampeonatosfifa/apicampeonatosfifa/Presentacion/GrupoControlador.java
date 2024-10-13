@@ -8,44 +8,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import apicampeonatosfifa.apicampeonatosfifa.Core.Interfaz.Servicios.ISeleccionServicio;
-import apicampeonatosfifa.apicampeonatosfifa.Dominio.Seleccion;
+import apicampeonatosfifa.apicampeonatosfifa.Core.Interfaz.Servicios.IGrupoServicio;
+import apicampeonatosfifa.apicampeonatosfifa.Dominio.Grupo;
+import apicampeonatosfifa.apicampeonatosfifa.Dominio.DTOs.TablaPosicionesDTO;
 
 @RestController
-@RequestMapping("/api/selecciones")
-public class SeleccionController {
-
-    private ISeleccionServicio servicio;
+@RequestMapping("/api/Grupos")
+public class GrupoControlador {
 
 
-    public SeleccionController(ISeleccionServicio servicio){
+    private IGrupoServicio servicio;
+
+
+    public GrupoControlador(IGrupoServicio servicio){
         this.servicio = servicio;
     }
 
+    @RequestMapping(value = "/Posiciones/{id}", method=RequestMethod.GET)
+    public List<TablaPosicionesDTO> obtenerPosiciones(@PathVariable int id) {
+        return servicio.obtenerPosiciones(id);
+    }
+
     @RequestMapping(value = "/Listar", method=RequestMethod.GET)
-    public List<Seleccion> Listar() {
+    public List<Grupo> Listar() {
         return servicio.Listar();
     }
 
     
 
     @RequestMapping(value = "/Obtener/{Id}", method=RequestMethod.GET)
-    public Seleccion Obtener(@PathVariable Integer Id){
+    public Grupo Obtener(@PathVariable Integer Id){
         return servicio.Obtener(Id);
     }
 
     @RequestMapping(value = "/Buscar/{nombre}", method=RequestMethod.GET)
-    public List<Seleccion> Buscar(@PathVariable String nombre){
+    public List<Grupo> Buscar(@PathVariable String nombre){
         return servicio.Buscar(nombre);
     }
 
     @RequestMapping(value = "/Agregar", method=RequestMethod.POST)
-    public Seleccion Agregar(@RequestBody Seleccion Pais){
+    public Grupo Agregar(@RequestBody Grupo Pais){
         return servicio.Agregar(Pais);
     }
 
     @RequestMapping(value = "/Modificar", method=RequestMethod.PUT)
-    public Seleccion Modificar(@RequestBody Seleccion Pais){
+    public Grupo Modificar(@RequestBody Grupo Pais){
         return servicio.Modificar(Pais);
     }
 
