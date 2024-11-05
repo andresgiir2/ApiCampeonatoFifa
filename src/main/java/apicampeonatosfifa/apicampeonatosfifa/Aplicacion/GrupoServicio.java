@@ -12,17 +12,16 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 @Service
-public class GrupoServicio implements IGrupoServicio{
+public class GrupoServicio implements IGrupoServicio {
 
     private IGrupoRepositorio repositorio;
 
     @PersistenceContext
     private EntityManager em;
 
-    public GrupoServicio(IGrupoRepositorio repositorio){
+    public GrupoServicio(IGrupoRepositorio repositorio) {
         this.repositorio = repositorio;
     }
-
 
     @Override
     public List<Grupo> Listar() {
@@ -31,44 +30,48 @@ public class GrupoServicio implements IGrupoServicio{
 
     @Override
     public Grupo Obtener(Integer Id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Obtener'");
+        return repositorio.findById(Id).isPresent() ? repositorio.findById(Id).get() : null;
     }
 
     @Override
     public List<Grupo> Buscar(String nombre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Buscar'");
+        return repositorio.Buscar(nombre);
     }
 
     @Override
     public Grupo Agregar(Grupo Pais) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Agregar'");
+        Pais.setId(0);
+        var PaisGuardado = repositorio.save(Pais);
+        return Obtener(PaisGuardado.getId());
     }
 
     @Override
     public Grupo Modificar(Grupo Pais) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Modificar'");
+        return repositorio.findById(Pais.getId()).isPresent() ? repositorio.save(Pais) : null;
     }
 
     @Override
     public boolean Eliminar(Integer Id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Eliminar'");
+        if (repositorio.findById(Id).isPresent()) {
+            try {
+                repositorio.deleteById(Id);
+                return true;
+
+            } catch (Exception ex) {
+
+            }
+
+        }
+        return false;
     }
 
-   
-
     @Override
-    public List<TablaPosicionesDTO> obtenerPosiciones(int id){
+    public List<TablaPosicionesDTO> obtenerPosiciones(int id) {
 
         List<TablaPosicionesDTO> tablaPosiciones = em
                 .createNativeQuery("Select * From fTablaPosicionesGrupo(:idgrupotabla)", TablaPosicionesDTO.class)
                 .setParameter("idgrupotabla", id)
                 .getResultList();
-
 
         return tablaPosiciones;
     }
