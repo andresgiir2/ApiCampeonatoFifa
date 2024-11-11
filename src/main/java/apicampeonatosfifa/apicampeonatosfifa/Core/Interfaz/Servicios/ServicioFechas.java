@@ -18,7 +18,6 @@ public class ServicioFechas {
         festivosFijos = new HashMap<>();
         festivosMoviles = new HashMap<>();
 
-        // Festivos fijos (Tipo 1)
         festivosFijos.put("01-01", "Año nuevo");
         festivosFijos.put("01-05", "Día del Trabajo");
         festivosFijos.put("20-07", "Independencia Colombia");
@@ -26,15 +25,13 @@ public class ServicioFechas {
         festivosFijos.put("08-12", "Inmaculada Concepción");
         festivosFijos.put("25-12", "Navidad");
 
-        // Festivos móviles basados en el Domingo de Pascua (Tipo 3 y Tipo 4)
-        festivosMoviles.put("Jueves Santo", -3); // Tipo 3
-        festivosMoviles.put("Viernes Santo", -2); // Tipo 3
-        festivosMoviles.put("Ascensión del Señor", 40); // Tipo 4
-        festivosMoviles.put("Corpus Christi", 61); // Tipo 4
-        festivosMoviles.put("Sagrado Corazón de Jesús", 68); // Tipo 4
+        festivosMoviles.put("Jueves Santo", -3);
+        festivosMoviles.put("Viernes Santo", -2);
+        festivosMoviles.put("Ascensión del Señor", 40);
+        festivosMoviles.put("Corpus Christi", 61);
+        festivosMoviles.put("Sagrado Corazón de Jesús", 68);
     }
 
-    // Método para calcular el domingo de ramos
     public Date getDomingoRamos(int año) {
         int a = año % 19;
         int b = año % 4;
@@ -79,9 +76,8 @@ public class ServicioFechas {
         
         int dia = cal.get(Calendar.DAY_OF_MONTH);
         int mes = cal.get(Calendar.MONTH) + 1;
-        String clave = String.format("%02d-%02d", dia, mes);
+        String clave = String.format("%02d-%02d", mes, dia);
 
-        // Verificación de festivos fijos
         if (festivosFijos.containsKey(clave)) {
             return festivosFijos.get(clave);
         }
@@ -89,18 +85,27 @@ public class ServicioFechas {
         int año = cal.get(Calendar.YEAR);
         Date domingoPascua = incrementarDias(getDomingoRamos(año), 7);
 
-        // Festivos móviles basados en Pascua
         for (Map.Entry<String, Integer> entry : festivosMoviles.entrySet()) {
             Date fechaFestivo = incrementarDias(domingoPascua, entry.getValue());
             if (entry.getKey().equals("Ascensión del Señor") || entry.getKey().equals("Corpus Christi") || entry.getKey().equals("Sagrado Corazón de Jesús")) {
                 fechaFestivo = siguienteLunes(fechaFestivo);
             }
-            if (fecha.equals(fechaFestivo)) {
+            if (esMismaFecha(fecha, fechaFestivo)) {
                 return entry.getKey();
             }
         }
 
         return null;
+    }
+
+    private boolean esMismaFecha(Date fecha1, Date fecha2) {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTime(fecha1);
+        cal2.setTime(fecha2);
+
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+               cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
     }
 
     public boolean esFechaValida(String fecha) {
