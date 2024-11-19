@@ -15,7 +15,7 @@ import jakarta.persistence.PersistenceContext;
 public class GrupoServicio implements IGrupoServicio {
 
     private IGrupoRepositorio repositorio;
-
+ 
     @PersistenceContext
     private EntityManager em;
 

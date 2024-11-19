@@ -18,7 +18,7 @@ public class GrupoPaisId {
 
     // Getters y Setters
     public int getGrupo() {
-        return grupo;
+        return grupo; 
     }
 
     public void setGrupo(int grupo) {
